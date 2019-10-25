@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.jrcodeza</groupId>
+	<artifactId>spring-openapi-example</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.6.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<name>Spring Open API - Example</name>
+	<description>Spring OpenAPI 3 generator example</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.jrcodeza</groupId>
+			<artifactId>spring-openapi-schema-generator-plugin</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.jrcodeza</groupId>
+			<artifactId>spring-openapi-client-generator-plugin</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Generates OpenAPI v3 spec from code-->
+			<plugin>
+				<groupId>com.github.jrcodeza</groupId>
+				<artifactId>spring-openapi-schema-generator-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.jrcodeza</groupId>
+						<artifactId>spring-openapi-example</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generateOpenApi</goal>
+						</goals>
+						<phase>install</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<title>Spring OpenAPI Example</title>
+					<description>Demonstrational OpenAPI spec generated using Spring OpenAPI generator example project</description>
+					<version>1.0.0-SNAPSHOT</version>
+					<modelPackages>
+						<modelPackage>com.github.jrcodeza.example.model.*</modelPackage>
+					</modelPackages>
+					<controllerBasePackages>
+						<controllerBasePackage>com.github.jrcodeza.example.controller.*</controllerBasePackage>
+					</controllerBasePackages>
+					<outputDirectory>target/openapi-spec</outputDirectory>
+					<schemaFieldInterceptors>
+						<schemaFieldInterceptor>com.github.jrcodeza.example.openapi.CustomSchemaFieldInterceptor</schemaFieldInterceptor>
+					</schemaFieldInterceptors>
+					<operationInterceptors>
+						<operationInterceptor>com.github.jrcodeza.example.openapi.CustomSchemaOperationInterceptor</operationInterceptor>
+					</operationInterceptors>
+					<generateExamples>true</generateExamples>
+					<openApiExamplesResolver>com.github.jrcodeza.example.openapi.CustomExampleResolver</openApiExamplesResolver>
+				</configuration>
+			</plugin>
+
+			<!-- Generates client (code) from openapi v3 spec -->
+			<plugin>
+				<groupId>com.github.jrcodeza</groupId>
+				<artifactId>spring-openapi-client-generator-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generateClientFromOpenApi</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<schemaPath>src/main/resources/spec-for-client-generation/openapi.json</schemaPath>
+					<outputPath>target/generated-sources</outputPath>
+					<outputPackage>com.github.jrcodeza.client</outputPackage>
+					<generateDiscriminatorProperty>false</generateDiscriminatorProperty>
+					<generateResourceInterface>true</generateResourceInterface>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

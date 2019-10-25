@@ -1,0 +1,8 @@
+{
+  "name": "Big plane",
+  "manufacturer": "Boeing",
+  "model": "747",
+  "manufactureYear": 2010,
+  "numberOfEngines": 4,
+  "maximumFlyingAltitude": 15000
+}

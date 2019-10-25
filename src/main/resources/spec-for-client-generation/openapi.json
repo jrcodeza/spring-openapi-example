@@ -1,0 +1,617 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Spring OpenAPI Example",
+    "description": "Demonstrational OpenAPI spec generated using Spring OpenAPI generator example project",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "paths": {
+    "/api/vehicles": {
+      "get": {
+        "tags": [
+          "vehicles-controller"
+        ],
+        "summary": "",
+        "operationId": "getVehiclesUsingGET",
+        "parameters": [
+          {
+            "name": "manufacturer",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vehicle"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "vehicles-controller"
+        ],
+        "summary": "",
+        "operationId": "createVehicleUsingPOST",
+        "parameters": [],
+        "requestBody": {
+          "description": "requestBody",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vehicle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Vehicle created",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners/{ownerId}/photo": {
+      "post": {
+        "tags": [
+          "owners-controller"
+        ],
+        "summary": "",
+        "description": "This operation is asynchronous.",
+        "operationId": "addOwnerPhotoUsingPOST",
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "requestBody",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Photo scheduled to be added",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/api/vehicles/{vehicleId}": {
+      "put": {
+        "tags": [
+          "vehicles-controller"
+        ],
+        "summary": "",
+        "operationId": "replaceVehicleUsingPUT",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vehicleId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "requestBody",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vehicle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Vehicle replaces",
+            "headers": {
+              "ETag": {
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Precondition failed",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardError"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vehicles/cars": {
+      "get": {
+        "tags": [
+          "vehicles-controller"
+        ],
+        "summary": "",
+        "operationId": "getCarsUsingGET",
+        "parameters": [
+          {
+            "name": "manufacturer",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/owners": {
+      "post": {
+        "tags": [
+          "owners-controller"
+        ],
+        "summary": "",
+        "operationId": "createOwnerUsingPOST",
+        "parameters": [],
+        "requestBody": {
+          "description": "requestBody",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Owner"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Owner created",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Vehicle": {
+        "required": [
+          "manufacturer",
+          "model",
+          "name",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "internalDatabaseId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "example": {
+              "value": "Taxi car"
+            }
+          },
+          "model": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "description": "This field is read only.",
+            "readOnly": true,
+            "deprecated": false
+          },
+          "type": {
+            "type": "string"
+          },
+          "manufactureYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "manufacturer": {
+            "type": "string",
+            "example": {
+              "value": "Toyota"
+            }
+          }
+        },
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "car": "Car",
+            "airplane": "Plane",
+            "train": "Train"
+          }
+        }
+      },
+      "Entity": {
+        "type": "object",
+        "properties": {
+          "internalDatabaseId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "description": "This field is read only.",
+            "readOnly": true,
+            "deprecated": false
+          }
+        }
+      },
+      "StandardError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Company": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Owner"
+          },
+          {
+            "required": [
+              "name"
+            ],
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "This field will be visible in report."
+              },
+              "taxNumber": {
+                "maxLength": 10,
+                "minLength": 10,
+                "type": "string"
+              },
+              "numberOfEmployees": {
+                "minimum": 1,
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "Owner": {
+        "required": [
+          "address",
+          "vehicles",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "registrationNumber": {
+            "maxLength": 10,
+            "minLength": 8,
+            "type": "string"
+          },
+          "internalDatabaseId": {
+            "type": "string"
+          },
+          "vehicles": {
+            "maxItems": 2147483647,
+            "minItems": 1,
+            "type": "array",
+            "description": "This field will be visible in report.",
+            "items": {
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "car": "Car",
+                  "airplane": "Plane",
+                  "train": "Train"
+                }
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Plane"
+                },
+                {
+                  "$ref": "#/components/schemas/Car"
+                },
+                {
+                  "$ref": "#/components/schemas/Train"
+                }
+              ]
+            }
+          },
+          "id": {
+            "type": "string",
+            "description": "This field is read only.",
+            "readOnly": true,
+            "deprecated": false
+          },
+          "type": {
+            "type": "string"
+          },
+          "email": {
+            "pattern": "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\\.[A-Z]{2,}",
+            "type": "string",
+            "description": "This field will be visible in report."
+          }
+        },
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "person": "Person",
+            "company": "Company"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          }
+        }
+      },
+      "Car": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Vehicle"
+          },
+          {
+            "required": [
+              "carType"
+            ],
+            "type": "object",
+            "properties": {
+              "carType": {
+                "$ref": "#/components/schemas/CarType"
+              },
+              "numberOfDoors": {
+                "minimum": 0,
+                "type": "integer",
+                "format": "int32"
+              },
+              "maxSpeed": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "Plane": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Vehicle"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "maximumFlyingAltitude": {
+                "minimum": 1,
+                "type": "integer",
+                "format": "int32"
+              },
+              "numberOfEngines": {
+                "minimum": 0,
+                "type": "integer",
+                "format": "int32"
+              },
+              "numberOfPassengers": {
+                "minimum": 1,
+                "type": "integer",
+                "format": "int32"
+              },
+              "speed": {
+                "type": "number",
+                "description": "Speed in knots",
+                "format": "double",
+                "deprecated": false
+              }
+            }
+          }
+        ]
+      },
+      "CarType": {
+        "type": "string",
+        "enum": [
+          "STANDARD",
+          "SPORT",
+          "SUV",
+          "VAN"
+        ]
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "validationErrors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Train": {
+        "example": {
+          "value": "{\n  \"name\": \"Fastest TGV\",\n  \"manufacturer\": \"TGV\",\n  \"model\": \"Eurostar Three Capitals\",\n  \"manufactureYear\": 2005,\n  \"numberOfCars\": 10\n}\n"
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Vehicle"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "numberOfCars": {
+                "minimum": 1,
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "Person": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Owner"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "description": "This field will be visible in report."
+              },
+              "lastNames": {
+                "type": "array",
+                "description": "This field will be visible in report.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "vip": {
+                "type": "boolean"
+              },
+              "birthDate": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Family car",
+  "manufacturer": "Toyota",
+  "model": "Landcruiser",
+  "manufactureYear": 2015,
+  "numberOfDoors": 5,
+  "maxSpeed": 180,
+  "carType": "SUV"
+}
